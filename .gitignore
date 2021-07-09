@@ -1,0 +1,13 @@
+# audio files
+*.wav
+*.mp3
+*.prproj
+*.xml
+
+# python cache file
+*.pyc
+
+# input and output files
+/output
+/input
+/test_file
