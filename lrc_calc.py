@@ -1,7 +1,7 @@
 
 import wave
 import contextlib
-import math
+import os
 
 class LrcCalc:
     total_min = 0
@@ -13,7 +13,7 @@ class LrcCalc:
             frames = f.getnframes()
             rate = f.getframerate()
             duration = round(frames / float(rate), 2)
-            self.get_time_detail(duration)
+            return self.get_full_lrc(self.get_time_detail(duration), path)
 
     def get_time_detail(self, duration):
         min = round(duration / 60)
@@ -25,13 +25,16 @@ class LrcCalc:
 
         if(self.total_msec > 100):
             self.total_sec += 1
-            self.total_sec -= 60
+            self.total_msec -= 100
 
         if(self.total_sec > 60):
             self.total_min += 1
             self.total_sec -= 60
 
-        print(self.lrc_format(min, sec, msec))
+        return self.lrc_format(self.total_min, self.total_sec, self.total_msec)
 
     def lrc_format(self, min, sec, msec):
         return ("[" + str(min) + ":" + str(sec) + "." + str(msec) + "]")
+
+    def get_full_lrc(self, time, path):
+        return time + os.path.basename(path).replace(".wav","")
