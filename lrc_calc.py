@@ -10,10 +10,11 @@ class LrcCalc:
     total_sec = 0
     total_msec = 0
 
-    def add_total_time(duration, self):
-        self.total_min = math.floor(self.total_duration / 60)
-        self.total_sec = math.floor(self.total_duration % 60)
-        self.total_msec = math.floor((self.total_duration % 60 - self.total_sec) * 100)
+    def add_total_time(self, duration):
+        self.total_min = math.floor(float(self.total_duration / 60))
+        self.total_sec = math.floor(float(self.total_duration % 60))
+        self.total_msec = math.floor((float(self.total_duration % 60 - self.total_sec) * 100))
+        self.total_duration += duration
 
     def get_wave_lrc_time(self, path, name):
         with contextlib.closing(wave.open(path,'r')) as f:

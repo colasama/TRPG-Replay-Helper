@@ -1,12 +1,13 @@
 from ttskit import sdk_api
 import csv
 import re
+import os
 import wav_splicer
 from lrc_calc import LrcCalc
 
 pair = {"骰子姬":1, "KP":12, "文明青年阿辽":3, "夏慎":22, "艺术家摸鱼":30, "刘深":20, "孙舞":9, "孙沁":4, "刘晓晓":16, "Ulire": 22}
-path = "./test_file/第一集.csv"
-dest_lrc_name = "第一集"
+path = "./test_file/第一集1.csv"
+dest_lrc_name = "第一集1"
 
 work_dir = "D:/code/TRPG-Replay-Helper/final/"
 
@@ -36,16 +37,17 @@ def main():
             file_name = str(row[1])
             file_name = re.findall(r'[^\*"/:?\\|<>]', file_name, re.S)
             file_name = "".join(file_name)
-
-            if(type(content) == list):
-                name_list = []
-                for index, part in enumerate(content):
-                    wav_path = work_dir+file_name+str(index)+".wav"
-                    name_list.append(wav_path)
-                    text_synthesize(part, pair[row[0]], wav_path)
-                wav_splicer.splice(name_list, work_dir+file_name+".wav")
-            else:
-                text_synthesize(content, pair[row[0]], work_dir+file_name+".wav")
+            # 文件不存在时，开始合成
+            if(os.path.exists(work_dir+file_name+".wav") == False):
+                if(type(content) == list):
+                    name_list = []
+                    for index, part in enumerate(content):
+                        wav_path = work_dir+file_name+str(index)+".wav"
+                        name_list.append(wav_path)
+                        text_synthesize(part, pair[row[0]], wav_path)
+                    wav_splicer.splice(name_list, work_dir+file_name+".wav")
+                else:
+                    text_synthesize(content, pair[row[0]], work_dir+file_name+".wav")
             
             # 保存文件名，用于下一步的合并为大wav
             total_wav_list.append(work_dir+file_name+".wav")
