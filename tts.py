@@ -1,3 +1,13 @@
-import ttskit
+from ttskit import sdk_api
 
-ttskit.tts('这是个示例', audio='24', output="./test.wav")
+def text_synthesize(text, i):
+    path = str(i) + ".wav"
+    wav = sdk_api.tts_sdk(text, audio=i, output=path)
+    
+def main():
+
+    text_synthesize("欸 请问您是" ,2)
+    
+
+if __name__ == '__main__':
+    main()
