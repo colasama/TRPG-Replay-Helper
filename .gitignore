@@ -3,6 +3,7 @@
 *.mp3
 *.prproj
 *.xml
+*.lrc
 
 # python cache file
 *.pyc

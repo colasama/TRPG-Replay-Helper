@@ -2,7 +2,6 @@ from lrc_calc import LrcCalc
 import tts
 import os  
 
-pair = {"KP":12, "文明青年阿辽":3, "夏慎":22, "艺术家摸鱼":30, "刘深":20, "孙舞":9, "孙沁":4, "刘晓晓":16, "Ulire": 22}
 wav_list = []
 
 def get_filelist(path, list_name):  
