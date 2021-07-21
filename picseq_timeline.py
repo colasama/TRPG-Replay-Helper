@@ -1,21 +1,23 @@
 import os
-from PIL import Image
 
 path = "./test_file/chara/"
 chara = "夏慎"
 png_list = {"夏慎00": 1.68}
+emo = {0:"0-无表情", 1:"1-笑", 2:"2-开口", 3:"3-尴尬", 4:"4-生气", 5:"5-恐惧", 6:"6-沉思"}
 
-def create_clip_from_pic(duration, pic, output):
-    full_path = path+chara+"/"+pic+".png"
-    img = Image.open(full_path)
-    width = img.width
-    height = img.height
-
-    # os.system(r"ffmpeg -r 30 -loop 1 -i " + full_path +" -pix_fmt yuv420p -vcodec \
-    #             libx264 -b:v 600k -r:v 30 -preset medium -crf 30 -s "+str(width)+"x"+str(height)+ \
-    #             " -vframes 250 -r 25 -t "+str(duration)+" "+output+".mp4")
+# 从图片创建指定时长的带Alpha通道视频片段
+def create_clip_from_pic(duration, chara, pic, output):
+    full_path = path+chara+"/"+emo[int(pic)]+".png"
+    print(full_path)
     total_frames = round(duration * 30)
     os.system(r"ffmpeg -f image2 -r 30 -loop 1 -i "+full_path+ \
-              r" -vf fps=30 -vf fade=in:0:6,fade=out:"+str(total_frames-6)+":6 -vcodec qtrle "+"-t "+str(duration)+ \
+              r" -vf fps=30,fade=in:0:5,fade=out:"+str(total_frames-5)+":5 -vcodec png "+"-t "+str(duration)+ \
               " "+output+".mov -y")
-create_clip_from_pic(3, "夏慎00", "./test_file/mov_tmp/b")
+    return output+".mov"
+
+# 合并clips，先手动了
+def concat_clips(clips_list):
+    for clip in clips_list:
+        pass
+
+print(emo[0])

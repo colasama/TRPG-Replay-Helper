@@ -4,6 +4,7 @@ import re
 import os
 import wav_splicer
 from lrc_calc import LrcCalc
+import picseq_timeline as pt
 
 pair = {"骰子姬":1, "KP":12, "阿辽":3, "夏慎":22, "莫彧":30, "刘深":20, "孙舞":9, "孙沁":4, "刘晓晓":16, "Ulire": 22}
 path = "./test_file/第一集1.csv"
@@ -29,6 +30,11 @@ def main():
     content_lrc = open(work_dir+dest_lrc_name+"Content.lrc", "w", encoding="utf8")
     people_lrc = open(work_dir+dest_lrc_name+"People.lrc", "w", encoding="utf8")
     total_wav_list = []
+    total_wav_length = []
+    total_name_list = []
+    total_filename_list = []
+    total_emo_list = []
+    pic_seq = []
 
     with open(path, 'r', encoding="utf8") as f:
         csv_reader = csv.reader(f)
@@ -44,6 +50,8 @@ def main():
             if(os.path.exists(work_dir+file_name+".wav") == False):
                 if(row[0] == "骰子姬"):
                     continue
+                
+                # 开始语音合成
                 if(type(content) == list):
                     name_list = []
                     for index, part in enumerate(content):
@@ -63,8 +71,20 @@ def main():
                 total_lrc = lrc.get_wave_lrc_time(work_dir+file_name+".wav", row[0])
                 content_lrc.write(total_lrc[0]+"\n")
                 people_lrc.write(total_lrc[1]+"\n")
+                # 保存名字和表情和长度序列，用于立绘视频生成
+                total_wav_length.append(total_lrc[2])
+                total_name_list.append(row[0])
+                total_filename_list.append(file_name)
+                total_emo_list.append(row[2])
+                pic_seq.append(work_dir+file_name+".wav")
             except:
                 print("lrc write error in "+file_name)
+
+    # 立绘视频生成并合成
+    # TODO: 但是这个方法没考虑鸽子鸡诶
+    for i in range(len(total_wav_length)):
+        pt.create_clip_from_pic(total_wav_length[i], total_name_list[i], total_emo_list[i], "K:/yyfPicSeq/"+str(i))
+
     # 合并大wav，关闭两个lrc
     try:
         wav_splicer.final_splice(total_wav_list, work_dir+dest_lrc_name+".wav")

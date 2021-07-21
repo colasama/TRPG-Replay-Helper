@@ -14,3 +14,4 @@ def seperate_kp(ori):
 	else:
 		pass
 print(seperate_str(input_psd), input_psd.split("kp"))
+print("聘请" in "周老师聘请这样一个健忘到把事件写在笔记本上的人是有毛病吗")

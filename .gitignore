@@ -4,7 +4,7 @@
 *.prproj
 *.xml
 *.lrc
-
+*.pkf
 # python cache file
 *.pyc
 
