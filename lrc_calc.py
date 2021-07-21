@@ -24,7 +24,7 @@ class LrcCalc:
                 duration = round(frames / float(rate), 2)
                 return self.get_full_lrc(self.get_time_detail(duration), path, name)
         except:
-            print("Lrc generate rttto "+path)
+            print("Lrc generate error in "+path)
 
     def get_time_detail(self, duration):
         if(self.total_duration != 0):

@@ -1,7 +1,16 @@
 import re
-input_psd = "你说啥子?"
-test_str = re.search(r"`~!@#$%^&*()_\-+=<>?:{}|,.\/;'\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、",input_psd)
-if test_str == None:
-	print("没有没有真没有特殊字符")
-else:
-	print("该文本包含特殊字符")
+def seperate_str(string):
+	result = re.findall(r"[\w']+", string)
+	final = []
+	if(len(result)<=1):
+		return string
+	else:
+		return result
+input_psd = "kp隐瞒了什么，申请对kp心理学（不））"
+
+def seperate_kp(ori):
+	if(type(ori) == str):
+		pass
+	else:
+		pass
+print(seperate_str(input_psd), input_psd.split("kp"))
