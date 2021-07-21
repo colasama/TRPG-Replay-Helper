@@ -17,11 +17,14 @@ class LrcCalc:
         self.total_duration += duration
 
     def get_wave_lrc_time(self, path, name):
-        with contextlib.closing(wave.open(path,'r')) as f:
-            frames = f.getnframes()
-            rate = f.getframerate()
-            duration = round(frames / float(rate), 2)
-            return self.get_full_lrc(self.get_time_detail(duration), path, name)
+        try:
+            with contextlib.closing(wave.open(path,'r')) as f:
+                frames = f.getnframes()
+                rate = f.getframerate()
+                duration = round(frames / float(rate), 2)
+                return self.get_full_lrc(self.get_time_detail(duration), path, name)
+        except:
+            print("Lrc generate rttto "+path)
 
     def get_time_detail(self, duration):
         if(self.total_duration != 0):

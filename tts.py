@@ -12,7 +12,10 @@ dest_lrc_name = "第一集1"
 work_dir = "D:/code/TRPG-Replay-Helper/final/"
 
 def text_synthesize(text, people, output):
-    wav = sdk_api.tts_sdk(text, audio=people, output=output)
+    try:
+        wav = sdk_api.tts_sdk(text, audio=people, output=output)
+    except:
+        print("Output "+text+" Error!")
 
 def seperate_str(string):
     result = re.findall(r"[\w']+", string)
@@ -44,21 +47,32 @@ def main():
                     for index, part in enumerate(content):
                         wav_path = work_dir+file_name+str(index)+".wav"
                         name_list.append(wav_path)
+                        # if(part == None or part == "" or part == " " or re.search(r"[\w']+",part) != None):
+                        #     wav_splicer.get_none(300, wav_path)
+                        # else:
                         text_synthesize(part, pair[row[0]], wav_path)
                     wav_splicer.splice(name_list, work_dir+file_name+".wav")
                 else:
+                    # if(content == None or content == "？" or content == " " or re.search(r"\W",content) != None):
+                    #     print("this is:"+file_name)
+                    #     wav_splicer.get_none(600, work_dir+file_name+".wav")
+                    # else:
                     text_synthesize(content, pair[row[0]], work_dir+file_name+".wav")
-            
             # 保存文件名，用于下一步的合并为大wav
             total_wav_list.append(work_dir+file_name+".wav")
             # 这里保存一下lrc
-            total_lrc = lrc.get_wave_lrc_time(work_dir+file_name+".wav", row[0])
-            content_lrc.write(total_lrc[0]+"\n")
-            people_lrc.write(total_lrc[1]+"\n")
+            try:
+                total_lrc = lrc.get_wave_lrc_time(work_dir+file_name+".wav", row[0])
+                content_lrc.write(total_lrc[0]+"\n")
+                people_lrc.write(total_lrc[1]+"\n")
+            except:
+                print("krc write error")
     # 合并大wav，关闭两个lrc
-    wav_splicer.splice(total_wav_list, work_dir+dest_lrc_name+".wav")
-    content_lrc.close()
-    people_lrc.close()
-
+    try:
+        wav_splicer.splice(total_wav_list, work_dir+dest_lrc_name+".wav")
+        content_lrc.close()
+        people_lrc.close()
+    except:
+        print("krc write error")
 if __name__ == '__main__':
     main()
