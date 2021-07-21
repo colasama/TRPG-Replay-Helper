@@ -12,7 +12,7 @@ class LrcCalc:
     present_duration = 0
 
     def add_total_time(self, duration):
-        self.total_min = math.floor(float(self.total_duration / 60))
+        self.total_min = math.floor(float(self.total_duration / 60 % 10))
         self.total_sec = math.floor(float(self.total_duration % 60))
         self.total_msec = math.floor((float(self.total_duration % 60 - self.total_sec) * 100))
         self.total_duration += duration
@@ -36,7 +36,7 @@ class LrcCalc:
         return self.lrc_format(self.total_min, self.total_sec, self.total_msec)
 
     def lrc_format(self, min, sec, msec):
-        return ("[" + str(min) + ":" + str(sec) + "." + str(msec) + "]")
+        return ("[" + str(min).zfill(2) + ":" + str(sec).zfill(2) + "." + str(msec).zfill(2) + "]")
 
     def get_full_lrc(self, time, path, name):
         lis = []
