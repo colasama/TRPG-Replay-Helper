@@ -10,8 +10,9 @@ def create_clip_from_pic(duration, chara, pic, output):
     full_path = path+chara+"/"+emo[int(pic)]+".png"
     print(full_path)
     total_frames = round(duration * 30)
+    # ,fade=out:"+str(total_frames-3)+":3 也许不需要fadeout
     os.system(r"ffmpeg -f image2 -r 30 -loop 1 -i "+full_path+ \
-              r" -vf fps=30,fade=in:0:5,fade=out:"+str(total_frames-5)+":5 -vcodec png "+"-t "+str(duration)+ \
+              r" -vf fps=30,fade=in:0:4 -vcodec png "+"-t "+str(duration+0.3)+ \
               " "+output+".mov -y")
     return output+".mov"
 

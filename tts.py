@@ -18,6 +18,9 @@ def text_synthesize(text, people, output):
     except:
         print("Output "+text+" Error!")
 
+def purify_part(part):
+    return part.replace("（", "").replace("）","").replace("“", "").replace("”", "")
+
 def seperate_str(string):
     result = re.findall(r"[\w']+", string)
     if(len(result)<=1):
@@ -48,8 +51,8 @@ def main():
             file_name = "".join(file_name)
             # 文件不存在时，开始合成
             if(os.path.exists(work_dir+file_name+".wav") == False):
-                if(row[0] == "骰子姬"):
-                    continue
+                # if(row[0] == "骰子姬"):
+                #     continue
                 
                 # 开始语音合成
                 if(type(content) == list):
@@ -57,8 +60,9 @@ def main():
                     for index, part in enumerate(content):
                         wav_path = work_dir+file_name+str(index)+".wav"
                         name_list.append(wav_path)
+                        part = purify_part(part)
                         if(row[1] == "（。" or row[1] == "（？" or row[1] == "（！"):
-                            wav_splicer.get_none(300, wav_path)
+                            wav_splicer.get_none(900, wav_path)
                         else:
                             text_synthesize(part, pair[row[0]], wav_path)
                     wav_splicer.splice(name_list, work_dir+file_name+".wav")
@@ -82,8 +86,8 @@ def main():
 
     # 立绘视频生成并合成
     # TODO: 但是这个方法没考虑鸽子鸡诶
-    for i in range(len(total_wav_length)):
-        pt.create_clip_from_pic(total_wav_length[i], total_name_list[i], total_emo_list[i], "K:/yyfPicSeq/"+str(i))
+    # for i in range(len(total_wav_length)):
+    #     pt.create_clip_from_pic(total_wav_length[i], total_name_list[i], total_emo_list[i], "K:/yyfPicSeq/"+str(i))
 
     # 合并大wav，关闭两个lrc
     try:
