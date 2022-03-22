@@ -2,6 +2,8 @@
 
 为了方便跑团 Replay 制作而编写的一些 Python 脚本。
 
+使用实例：https://www.bilibili.com/video/BV1Yv411E7ra
+
 ## 依赖安装
 
 ```
