@@ -35,7 +35,7 @@ packaging==21.0
 phkit==0.2.9
 Pillow==9.0.0
 pooch==1.4.0
-protobuf==3.17.3
+protobuf==3.18.3
 PyAudio==0.2.11
 pycparser==2.20
 pydub==0.25.1
